@@ -11,38 +11,63 @@ Model name is converted to lowercase for the collection name:
 - BlogPost -> "blogs" collection
 """
 
-from pydantic import BaseModel, Field
-from typing import Optional
+from pydantic import BaseModel, Field, EmailStr
+from typing import Optional, Literal
+from datetime import date
 
-# Example schemas (replace with your own):
+# ---------------- Blood Donation Management Schemas -----------------
 
-class User(BaseModel):
-    """
-    Users collection schema
-    Collection name: "user" (lowercase of class name)
-    """
+BloodGroup = Literal[
+    "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"
+]
+
+class Donor(BaseModel):
     name: str = Field(..., description="Full name")
-    email: str = Field(..., description="Email address")
-    address: str = Field(..., description="Address")
-    age: Optional[int] = Field(None, ge=0, le=120, description="Age in years")
-    is_active: bool = Field(True, description="Whether user is active")
+    email: EmailStr = Field(..., description="Email address")
+    phone: str = Field(..., description="Contact phone number")
+    age: int = Field(..., ge=18, le=65, description="Age in years (18-65 eligible)")
+    blood_group: BloodGroup
+    health_ok: bool = Field(..., description="Self-declared good health status")
+    city: Optional[str] = Field(None, description="City/Location")
+    eligible: bool = Field(True, description="Eligibility computed at registration")
+
+class Hospital(BaseModel):
+    name: str
+    email: EmailStr
+    phone: str
+    city: Optional[str] = None
+
+class Inventory(BaseModel):
+    hospital_id: str = Field(..., description="Hospital ObjectId as string")
+    blood_group: BloodGroup
+    units: int = Field(..., ge=1, description="Units donated (1 unit ~ 450ml)")
+    expiry_date: date = Field(..., description="Expiry date of this donation unit batch")
+
+class Request(BaseModel):
+    hospital_id: str
+    donor_id: str
+    blood_group: BloodGroup
+    units: int = Field(..., ge=1)
+    status: Literal["pending", "approved", "declined"] = "pending"
+
+class Notification(BaseModel):
+    to_email: Optional[EmailStr] = None
+    to_phone: Optional[str] = None
+    subject: str
+    message: str
+    meta: Optional[dict] = None
+
+# ---------------- Example legacy schemas (kept for reference) -----------------
+class User(BaseModel):
+    name: str
+    email: str
+    address: str
+    age: Optional[int] = None
+    is_active: bool = True
 
 class Product(BaseModel):
-    """
-    Products collection schema
-    Collection name: "product" (lowercase of class name)
-    """
-    title: str = Field(..., description="Product title")
-    description: Optional[str] = Field(None, description="Product description")
-    price: float = Field(..., ge=0, description="Price in dollars")
-    category: str = Field(..., description="Product category")
-    in_stock: bool = Field(True, description="Whether product is in stock")
-
-# Add your own schemas here:
-# --------------------------------------------------
-
-# Note: The Flames database viewer will automatically:
-# 1. Read these schemas from GET /schema endpoint
-# 2. Use them for document validation when creating/editing
-# 3. Handle all database operations (CRUD) directly
-# 4. You don't need to create any database endpoints!
+    title: str
+    description: Optional[str] = None
+    price: float
+    category: str
+    in_stock: bool = True

@@ -1,0 +1,23 @@
+INFO:     Will watch for changes in these directories: ['/home/workspace']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [161] using StatReload
+INFO:     Started server process [163]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     172.20.0.1:58176 - "HEAD / HTTP/1.1" 405 Method Not Allowed
+INFO:     172.20.0.1:58182 - "GET /inventory HTTP/1.1" 200 OK
+INFO:     172.20.0.1:58208 - "GET /requests HTTP/1.1" 200 OK
+INFO:     172.20.0.1:58198 - "GET /hospitals HTTP/1.1" 200 OK
+INFO:     172.20.0.1:58182 - "GET /inventory HTTP/1.1" 200 OK
+INFO:     172.20.0.1:58208 - "GET /requests HTTP/1.1" 200 OK
+INFO:     172.20.0.1:58198 - "GET /hospitals HTTP/1.1" 200 OK
+INFO:     172.20.0.1:58218 - "GET /donors?blood_group=O%2B&eligible_only=true HTTP/1.1" 200 OK
+INFO:     172.20.0.1:58218 - "GET /donors?blood_group=O%2B&eligible_only=true HTTP/1.1" 200 OK
+INFO:     172.20.0.1:42516 - "GET /donors?blood_group=O%2B&eligible_only=true HTTP/1.1" 200 OK
+INFO:     172.20.0.1:42508 - "GET /hospitals HTTP/1.1" 200 OK
+INFO:     172.20.0.1:42520 - "GET /inventory HTTP/1.1" 200 OK
+INFO:     172.20.0.1:42508 - "GET /donors?blood_group=O%2B&eligible_only=true HTTP/1.1" 200 OK
+INFO:     172.20.0.1:42516 - "GET /hospitals HTTP/1.1" 200 OK
+INFO:     172.20.0.1:42520 - "GET /inventory HTTP/1.1" 200 OK
+INFO:     172.20.0.1:42534 - "GET /requests HTTP/1.1" 200 OK
+INFO:     172.20.0.1:42534 - "GET /requests HTTP/1.1" 200 OK
